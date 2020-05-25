@@ -1,0 +1,95 @@
+{% extends "layout_main.html" %}
+{% block content %}
+
+<div class="site-section">
+  <div class="container">
+    <div class="row align-items-stretch">       
+      <div class="col-lg-12" style="text-align: center;">
+        <div class="">
+            <h4>Machine Vision - Waste Image classification</h4>
+            <br/><br/><br/><br/><br/>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="site-section">
+  <div class="container">
+    <div class="row">
+
+      <div class="col-lg-5 mb-5">
+        <div class="card card-warning card-outline">
+          <div class="card-header">
+            <h3 class="card-title text-info text-bold">
+              Select a file to upload
+            </h3> 
+          </div>
+          <div class="card-body">
+            <p class="card-text">
+              <p>
+                <p>
+                  {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                    <ul class=flashes>
+                    {% for message in messages %}
+                      <li>{{ message }}</li>
+                    {% endfor %}
+                    </ul>
+                    {% endif %}
+                  {% endwith %}
+                </p>
+                
+                <form method="post" action="/" enctype="multipart/form-data">                    
+                  <div class="form-group">
+                    <label>Select image</label>
+                    <div class="custom-file">
+                      <input type="file" class="custom-file-input" name="file" id="file" autocomplete="off" required>
+                      <label class="custom-file-label" for="image">Select image...</label>
+                    </div>
+                  </div>
+
+                  <button type="submit" class="btn btn-block btn-warning rounded-0" value="Submit" style="margin-top: 6%;font-weight: bold;">Upload</button> 
+                  
+                </form>
+                <a href="{{ url_for('reset_index') }}" class="btn btn-block btn-warning rounded-0" style="margin-top: 4%;font-weight: bold;">Reset</a> 
+              </p>               
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-7 mb-5">
+        <div class="card card-warning card-outline">
+          <div class="card-header">
+            <h3 class="card-title text-info text-bold">
+              Model Prediction Result
+            </h3> 
+          </div>
+          <div class="card-body" style="padding: 0.6rem;">
+            <p class="card-text">
+              {% if session.get('p_class') != None: %}
+               <p style="font-size: 16px;text-align: center;font-weight: bold;">
+                 Predicted Class - [{{ session.get('p_class').title() }}]   &nbsp;&nbsp; Confidence - [{{ session.get('p_confidence').title() }}]                
+               </p>
+              {% endif %}
+                
+                {% if filename %}
+                <div style="text-align: center;">
+                  <img src="{{ url_for('display_image', filename=filename) }}" alt="Image" class="img-fluid">
+                </div>
+                {% else%}
+                  <img src="{{ url_for('static', filename='images/img_n7.png') }}" alt="Image" class="img-fluid">
+                {% endif %}
+                
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+      
+
+{% endblock %}
